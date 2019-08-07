@@ -1,0 +1,4 @@
+8.7创建第一个scraping程序。
+	1.未了解到urllib.request是个什么东西，它的功能。
+	2.出现提示Squeezed text(910 lines).但是网页源代码有1200多行。
+	3.IDLE(Python 3.7 64-bit),Python 3.7(64-bit),Python 3.7Manuals(64-bit),Python 3.7Module Docs(64-bit)
