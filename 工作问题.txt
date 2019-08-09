@@ -1,9 +1,12 @@
 8.7创建第一个scraping程序。
 	1.未了解到urllib.request是个什么东西，它的功能。
 	2.出现提示Squeezed text(910 lines).但是网页源代码有1200多行。
+		2解.当文本内容超过某个限制的时候
 	3.IDLE(Python 3.7 64-bit),Python 3.7(64-bit),Python 3.7Manuals(64-bit),Python 3.7Module Docs(64-bit)
 		3解.  IDLE:基本款只针对python的IDE，具有基本的开发功能，在配置python环境时自动安装。
 		Python 3.7 （64-bit）Python的命令提示窗口，与在cmd使用python一样        
 		Python 3.7Manuals(64-bit)：python的全部文档，与官网相同。
 		Python 3.7Module Docs （64-bit）：通过开启端口，打开浏览器来查找模块文档。
+8.8在python中的异常处理
+	1.不会使用if-else语句
 		        

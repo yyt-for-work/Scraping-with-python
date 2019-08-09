@@ -1,0 +1,31 @@
+from urllib.request import urlopen                  //引入模块（url.request）中的urlopen对象
+html = urlopen("http://https://github.com/yyt-for-work/Practice-in-leetcode")   //根据网址将网页解析为html文件
+print(html.read())				//打印html文件
+
+
+上面代码通过url信息将整个网页搞了下来，但是我们的需要的信息包含在网页中，而不是整个网页。
+**********************************************************************************************************
+8.8今天学习使用BeautifulSoup：不是Python的标准库，因此需要单独安装。
+from urllib.request import urlopen
+from bs4 import BeautifulSoup		//将BeautifulSoup对象引入
+html = urlopen("https://github.com/yyt-for-work/Practice-in-leetcode")
+bsobj = BeautifulSoup（html.read()）       //使用BeautifulSoup将网页信息进行解析
+print（bsobj.h1）			//解构后数据访问的范围到达标签级。
+
+
+上面是BeautifulSoup的基本使用方法，BeautifulSoup的基本功能。
+************************************************************************************************************
+8.8讨论scrapy在工作时可能会遇到的异常情况
+
+动作一：html = urlopen("https://www.github.com/yyt-for-work/Practice-in-leetcode")
+通过url得到网页的源代码
+可能的异常：1.网页在服务器上不存在。-----urlopen函数会抛出“HTTPError”异常。
+解决方法：使用try【可能出错代码】except【捕获异常并进行处理】
+	2.URL链接不能使用。----urlopen函数返回一个None对象----解决方法：if  html is None:   处理  else：程序继续
+动作二：bsobj.h1.span   通过bs对象调用一个标签的子标签。
+可能的异常：1.父标签不存在，子标签更不会存在。----2.bs对象返回一个AttributeError----3.解决方法：使用try----except
+
+
+总结：在动作一处使用try+if(能否得到html对象，得到的html对象的内容是否为none)处理异常；在动作二处使用if来避免异常。
+
+
