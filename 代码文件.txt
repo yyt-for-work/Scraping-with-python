@@ -27,5 +27,59 @@ print（bsobj.h1）			//解构后数据访问的范围到达标签级。
 
 
 总结：在动作一处使用try+if(能否得到html对象，得到的html对象的内容是否为none)处理异常；在动作二处使用if来避免异常。
+经典防错写法：
+from urllib.request import urlopen
+from urllib.error import HTTPError
+from bs4 import BeautifulSoup
+	def getTitle(url):
+		try:
+			html = urlopen(url)
+		except HTTPError as e:
+			return None
+		try:
+			bsobj = BeautifulSoup(html.read())
+			title = bsobj.body.h1
+		except AttributeError as e:
+			return None
+		return title
+	title = getTitle("http://www.pythonscraping.com/pages/page1.html")
+	if title ==None:
+		print("Title could not be found")
+	else:
+		print(title)
+
+
+**************************************************第一章结束******************************************
+第二章   复杂的HTML解析
+本章主要讨论的问题是：在HTML的烂泥堆中提取有用的数据。
+本章内容的含义：在上一章中我们使用BeautifulSoup对象将HTML文件分割为一个个小标签，而本章内容介绍通过标签中的属性来筛选出我们需要的标签。
+
+
+2.1写代码前的思考
+温馨小提示：面对埋藏很深或格式不友好的数据时，不要不经思考就写代码，一定要想好数据获取路径。
+ 
+
+2.2使用BeautifulSoup
+
+	使用BeautifulSoup通过属性查找标签的方法
+		findAll()的使用：锁定标签类型--->锁定属性名--->锁定属性值
+		findAll（“标签名”，{“属性名”：“属性值”}）  官方写法为：findAll（tagName，tagAttributes，recursive，text，limit，keywords）
+		但是在95%的时间里都只需要前两个参数。详情请查询p33
+		find()的使用：同findAll（），但是最后得到的是一个标签而不是一个标签组。
+	番外篇：get_text()函数的使用
+		谨慎使用get_text(),因为此函数会将所有的标签都清除掉。
+		使用findAll（）函数得到一堆的标签时，我们并没有得到我们最终想要的数据
+		此时使用  标签.get_text()  我们将得到标签中的文本信息，而将标签信息清除。
+	使用BeautifulSoup中的导航树通过标签在文档中的位置来查找标签
+		思想：BeautifulSoup在解析HTML时将一个标签的所有与他存在关系的
+		标签划分为四种后代标签，子标签，兄弟标签，父标签。通过一个标签的标签关系得到的
+		标签便是通过标签在文档中的位置来查找标签。
+		一个HTML文件可以映射成一棵树，HTML标签就是根，body，head就是第一层子节点。
+		使用子标签与后代标签：标签.children   得到标签的所有子标签
+				标签.descendants()得到标签的所有子标签，与子标签的子标签。。。
+		使用兄弟标签：标签.next_siblings   这个函数只调用标签后面的兄弟标签
+			       标签.previous_siblings   这个函数只会调用标签前面的兄弟标签。
+		使用父标签：标签.parent   这个函数会返回父标签。   父标签使用非常少。
+
 
 
