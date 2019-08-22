@@ -131,6 +131,57 @@ BeautifulSoup允许把特定的函数类型当作findAll（）函数的参数。
 
 完成第一个网络爬虫的使用。开心
 
+下面这个函数将会由一个网页沿着url跳到另一个网页，再沿着另一个url跳向另一个网页。
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import datetime
+import random
+import re
+
+random.seed(datetime.datetime.now())
+def getLinks(articleUrl):
+	html = urlopen("http://en.wikipedia.org"+articleUrl)
+	bsObj = BeautifulSoup(html)
+	return bsObj.find("div",{"id":"bodyContent"}).findAll("a",
+		href=re.compile("^(/wiki/)((?!:).)*$"))
+links = getLinks("/wiki/Kevin_Bacon")                      /*得到一个数组的链接
+while len(links)>0:
+	newArticle = links[random.randint(0,len(links)-1)].attrs["href"]/*选一个新的链接进入
+	print（newArticle）
+	links = getLinks(newArticle)
+
+********************************************对整个网站信息进行采集*****************************
+网站：网站含义不同于一个网页，它包含多个网页信息。新浪，百度，维基等都是一个网站。
+浅网（surface web）：使用互联网搜索引擎可以抓取的网站，占整个互联网比重较小。
+深网（deep web）：占互联网比重的90%以上，不能被搜索引擎抓取到。
+暗网（dark web）：与普通互联网网站在使用协议上有区别，在HTTP之上还有一层新协议，Tor客户端可以支持使用该协议。
+
+
+怎样采集一个网站的信息：
+逻辑上：由顶级页面开始（比如主页），采集页面上所有的url形成一个列表；通过采集到的url进入
+另一个页面；再收集改页面上的所有的url，形成列表，如此重复递归。
+为了避免一个页面被采集两次，链接去重是非常重要的。将已经发现的所有链接都放在一起，
+并保存在set集合中，set可以方便快捷的查询一个元素是否已经被放入，
+
+代码实现：
+href = re.compile("^(/wiki/)"):       //该句代码含义为挑选开头为/wiki/的链接
+/*可能需要改为
+
+递归警告：
+Python默认的递归限制（即函数调用自己本身的次数最多1000次），在达到一千次后程序会停止。
+可以设置一个较大的递归计数器来解决问题。
+********************************************收集整个网站数据******************************
+此内容开始告别使用爬虫在网页之间无聊跳转，我们要开始使用爬虫做一些事情了。
+任务：
+创建一个爬虫来收集页面标题，正文的第一个段落，编辑页面链接。
+第一步：先观察网页特征，然后拟定一个采集模式。
+	大标题的位置：<h1 id="firstHeading" class="firstHeading" lang="en">Scottish Highlands</h1>
+	正文第一段：<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><div role="note" class="hatnote navigation-not-searchable">"Highland Line" redirects here. For the railway lines, see <a href="/wiki/Highland_Main_Line" title="Highland Main Line">Highland Main Line</a> and <a href="/wiki/West_Highland_Line" title="West Highland Line">West Highland Line</a>.</div>
+
+
+
+
+
 		
 		
 
